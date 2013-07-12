@@ -2,8 +2,15 @@ var express = require('express');
 
 var app = express.createServer(express.logger());
 
+var buf = new Buffer(256);
+
+function readDone(err, data){
+  buf.write(data);
+}
+
 app.get('/', function(request, response) {
-  response.send('Hello World 2!');
+  fs.readFileSync('/home/ubuntu/bitstarter/index.html',readDone);
+  response.send(buf.toString);
 });
 
 var port = process.env.PORT || 5000;
